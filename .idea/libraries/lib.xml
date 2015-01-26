@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/sac-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/richfaces-core-impl-4.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/richfaces-components-api-4.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/richfaces-core-api-4.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/richfaces-components-ui-4.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/cssparser-0.9.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/jeedemo/WEB-INF/lib/guava-r08.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
