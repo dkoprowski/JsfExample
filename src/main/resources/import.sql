@@ -8,3 +8,5 @@ INSERT INTO car(make, model, sold) VALUES ('Ford', 'Focus', false)
 INSERT INTO car(make, model, sold) VALUES ('Opel', 'Vectra', false)
 INSERT INTO car(make, model, sold) VALUES ('Opel', 'Astra', false)
 INSERT INTO car(make, model, sold) VALUES ('Renault', 'Megane', false)
+
+INSERT INTO castle(builddate,name,numberofseats) VALUES ('1322-05-12' , 'Malbork', 550)

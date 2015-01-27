@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -17,7 +18,11 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQuery(name = "comment.all", query = "Select c from Comment c")
+
+@NamedQueries({
+	@NamedQuery(name = "comment.all", query = "Select c from Comment c"),
+	@NamedQuery(name = "comment.byCastle", query = "Select c from Comment c where c.castle.id = :castleId")
+})
 public class Comment {
 
 	private Long id;
@@ -26,7 +31,7 @@ public class Comment {
 	private int rate = 0;
 	private String user = "";
 	private Date commentDate = new Date();
-	//private Castle castle = new Castle();
+	private Castle castle = new Castle();
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,7 +71,8 @@ public class Comment {
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
-	/*
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.REFRESH)
 	public Castle getCastle(){
 		return castle;
 	}
@@ -74,5 +80,5 @@ public class Comment {
 	public void setCastle(Castle castle){
 		this.castle = castle;
 	}
-	*/
+	
 }

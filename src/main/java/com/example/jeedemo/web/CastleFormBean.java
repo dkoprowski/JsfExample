@@ -1,6 +1,7 @@
 package com.example.jeedemo.web;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.model.ListDataModel;
@@ -8,6 +9,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.example.jeedemo.domain.Castle;
+import com.example.jeedemo.domain.Ceremony;
+import com.example.jeedemo.domain.Comment;
 import com.example.jeedemo.domain.Person;
 import com.example.jeedemo.domain.Material;
 import com.example.jeedemo.service.CastleManager;
@@ -24,7 +27,8 @@ public class CastleFormBean implements Serializable {
 	private ListDataModel<Castle> castles = new ListDataModel<Castle>();
 	
 	private Castle castleToShow = new Castle();
-	private ListDataModel<Material> materials = new ListDataModel<Material>();
+	private Comment comment = new Comment();
+	
 	@Inject
 	private CastleManager cm;
 
@@ -44,7 +48,6 @@ public class CastleFormBean implements Serializable {
 	// Actions
 	public String addCastle() {
 		cm.addCastle(castle);
-		addMaterial();
 		return "showCastles";
 		//return null;
 	}
@@ -60,37 +63,35 @@ public class CastleFormBean implements Serializable {
 		return "details";
 	}
 	
-	public ListDataModel<Material> getAllMaterials() {
-		materials.setWrappedData(cm.getAllMaterials());
-		return materials;
-	}
-
-	private Material material = new Material();
-	private Material materialToShow = new Material();
-	
-	@Inject
-	private MaterialManager mm;
-
-	public Material getMaterial() {
-		return material;
-	}
-	public void setMaterial(Material material) {
-		this.material = material;
+	public Castle getCastleToShow(){
+		return castleToShow;
 	}
 	
-	// Actions
-	public String addMaterial() {
-		material.setCastle(castle);
-		mm.addMaterial(material);
-		return "showMaterials";
-		//return null;
-	}
-
-	public String deleteMaterial() {
-		Material materialToDelete = materials.getRowData();
-		mm.deleteMaterial(materialToDelete);
-		return null;
+	public ListDataModel<Ceremony> getCeremonies(){
+		ListDataModel<Ceremony> cer = new ListDataModel<Ceremony>();
+		cer.setWrappedData(cm.getCeremonies(castleToShow));
+		
+		return cer;
 	}
 	
+	public ListDataModel<Comment> getComments(){
+		ListDataModel<Comment> comm = new ListDataModel<Comment>();
+		comm.setWrappedData(cm.getComments(castleToShow));
+		
+		return comm;
+	}
+
+	//------- comment section
+	
+	public Comment getComment(){
+		return comment;
+	}
+	
+	public String addComment(){
+		comment.setCastle(castleToShow);
+		comment.setCommentDate(new Date());
+		cm.addComment(comment);
+		return("details");
+	}
 	
 }

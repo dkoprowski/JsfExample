@@ -6,8 +6,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.example.jeedemo.domain.Castle;
+import com.example.jeedemo.domain.Ceremony;
+import com.example.jeedemo.domain.Comment;
 import com.example.jeedemo.domain.Material;
 import com.example.jeedemo.domain.Person;
 
@@ -22,7 +25,10 @@ public class CastleManager {
 		castle.setId(null);
 		em.persist(castle);
 	}
-
+	public void addComment(Comment comment){
+		comment.setId(null);
+		em.persist(comment);
+	}
 	public void deleteCastle(Castle castle) {
 		castle = em.find(Castle.class, castle.getId());
 		em.remove(castle);
@@ -34,9 +40,17 @@ public class CastleManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Person> getAllMaterials() {
-		return em.createNamedQuery("material.all").getResultList();
+	public List<Comment> getComments(Castle actualCastle) {
+	    Query query = em.createNamedQuery("comment.byCastle");
+	    return query.setParameter("castleId", actualCastle.getId()).getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Ceremony> getCeremonies(Castle actualCastle) {
+	    Query query = em.createNamedQuery("ceremony.byCastle");
+	    return query.setParameter("castleId", actualCastle.getId()).getResultList();
+	}
+	
 /*
 	public List<Car> getOwnedCars(Person person) {
 		person = em.find(Person.class, person.getId());

@@ -7,26 +7,69 @@
 
 	<ui:define name="content">
 		<h:form>
-			<h:dataTable value="#{personBean.ownedCars}" var="item">
-				<f:facet name="header">Rented cars</f:facet>
+		<h:outputText value="#{castleBean.castleToShow.name}"/>
+
+			<h:dataTable value="#{castleBean.ceremonies}" var="item">
+				<f:facet name="header">#{msg.personAllLabel}</f:facet>
 				<h:column>
-					<f:facet name="header">Make</f:facet>
-					<h:outputText value="#{item.make}" />
+					<f:facet name="header">#{msg.personPinLabel}</f:facet>
+					<h:outputText value="#{item.name}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">#{msg.personFirstNameLabel}</f:facet>
+					<h:outputText value="#{item.ticketPrice}" />
 				</h:column>
 
 				<h:column>
-					<f:facet name="header">Model</f:facet>
-					<h:outputText value="#{item.model}" />
+					<f:facet name="header">#{msg.personPinLabel}</f:facet>
+					<h:outputText value="#{item.ceremonyDate}" />
 				</h:column>
-
+				
+			</h:dataTable>	
+					
+			<h:dataTable value="#{castleBean.comments}" var="item">
+				<f:facet name="header">#{msg.personAllLabel}</f:facet>
 				<h:column>
-					<f:facet name="header">#{msg.action}</f:facet>
-					<h:commandLink value="#{msg.actionDelete}"
-						action="#{personBean.disposeCar}" />
+					<f:facet name="header">#{msg.personPinLabel}</f:facet>
+					<h:outputText value="#{item.value}" />
 				</h:column>
-
-			</h:dataTable>
+				
+				<h:column>
+					<f:facet name="header">#{msg.personFirstNameLabel}</f:facet>
+					<h:outputText value="#{item.user}" />
+				</h:column>
+				
+							</h:dataTable>
 		</h:form>
+Zostaw info:
+		<h:form id="commentForm">
+			<h:panelGrid columns="2">
+
+				<h:outputText value="Uzytkownik" />
+				<h:inputText id="user" value="#{castleBean.comment.user}"
+					required="#{true}" />
+
+				<h:outputText value="Ocena" />
+				<h:inputText id="rate" value="#{castleBean.comment.rate}" />
+
+				<h:outputText value="Tresc" />
+				<h:inputText id="value" value="#{castleBean.comment.value}" />
+
+			</h:panelGrid>
+
+			<h:commandButton value="Daje okejke"
+				action="#{castleBean.addComment}" />
+
+			<h:panelGrid>
+				<h:messages for="" />
+				<h:messages id="messages" showDetail="#{true}"
+					showSummary="#{false}" />
+			</h:panelGrid>
+
+		</h:form>
+
+
 
 	</ui:define>
 

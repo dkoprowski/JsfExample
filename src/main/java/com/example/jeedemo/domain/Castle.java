@@ -66,7 +66,11 @@ public class Castle {
 		this.buildDate = buildDate;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public int getAge() {
+		return (new Date().getYear() - buildDate.getYear());
+	}
+	/*
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public List<Comment> getComments(){
 		return comments;
 	}
@@ -84,4 +88,5 @@ public class Castle {
 	public void setCeremonies(List<Ceremony> cer){
 		ceremonies = cer;
 	}
+	*/
 }

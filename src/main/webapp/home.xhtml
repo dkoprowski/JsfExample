@@ -5,6 +5,25 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/templates/default.xhtml">
 	<ui:define name="content">
-		<p>#{msg.applicationInfo}</p>
+		<h:form>
+			<h:dataTable value="#{castleBean.allCastles}" var="item">
+				<f:facet name="header">Zamki</f:facet>
+				<h:column>
+					<f:facet name="header">Nazwa</f:facet>
+					<h:commandLink value=" #{item.name} " action="#{castleBean.showDetails}"/>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Wiek</f:facet>
+					<h:outputText value="#{item.age}" />
+				</h:column>
+
+				<h:column>
+
+				</h:column>
+
+			</h:dataTable>
+		</h:form>
+
 	</ui:define>
 </ui:composition>
