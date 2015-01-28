@@ -20,8 +20,11 @@ import javax.validation.constraints.Size;
 @Entity
 
 @NamedQueries({
-	@NamedQuery(name = "comment.all", query = "Select c from Comment c"),
-	@NamedQuery(name = "comment.byCastle", query = "Select c from Comment c where c.castle.id = :castleId")
+	@NamedQuery(name = "comment.all", query = "SELECT c FROM Comment c"),
+	@NamedQuery(name = "comment.byCastle", query = "SELECT c FROM Comment c "
+			+ "WHERE c.castle.id = :castleId "
+			+ "ORDER BY c.commentDate ASC, "
+			+ "c.rate DESC")
 })
 public class Comment {
 
@@ -31,7 +34,7 @@ public class Comment {
 	private int rate = 0;
 	private String user = "";
 	private Date commentDate = new Date();
-	private Castle castle = new Castle();
+	private Castle castle;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,7 +45,7 @@ public class Comment {
 		this.id = id;
 	}
 	
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 200)
 	public String getValue() {
 		return value;
 	}
@@ -81,4 +84,8 @@ public class Comment {
 		this.castle = castle;
 	}
 	
+	@SuppressWarnings("deprecation")
+	public String getNiceDate() {
+		return commentDate.toLocaleString();
+	}
 }

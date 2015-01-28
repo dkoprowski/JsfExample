@@ -7,58 +7,59 @@
 
 	<ui:define name="content">
 		<h:form>
-		<h:outputText value="#{castleBean.castleToShow.name}"/>
-
-			<h:dataTable value="#{castleBean.ceremonies}" var="item">
-				<f:facet name="header">#{msg.personAllLabel}</f:facet>
+		<h1><h:outputText value="#{castleBean.castleToShow.name}"/></h1>
+		Ocena uczestników: <h:outputText value="#{castleBean.castleToShow.averageRate}"/><br/>
+		Król zarządca: <h:outputText value="#{castleBean.castleToShow.lastKing}"/><br/>
+			<h:dataTable value="#{castleBean.ceremonies}" var="item" class="table">
+				<f:facet name="header">Imprezy</f:facet>
 				<h:column>
-					<f:facet name="header">#{msg.personPinLabel}</f:facet>
+					<f:facet name="header">Nazwa wydarzenia</f:facet>
 					<h:outputText value="#{item.name}" />
 				</h:column>
 				
 				<h:column>
-					<f:facet name="header">#{msg.personFirstNameLabel}</f:facet>
-					<h:outputText value="#{item.ticketPrice}" />
+					<f:facet name="header">Cena biletu</f:facet>
+					<h:outputText value="#{item.ticketPrice}" /> zł
 				</h:column>
 
 				<h:column>
-					<f:facet name="header">#{msg.personPinLabel}</f:facet>
-					<h:outputText value="#{item.ceremonyDate}" />
+					<f:facet name="header">Data wydarzenia</f:facet>
+					<h:outputText value="#{item.niceDate}" />
 				</h:column>
 				
 			</h:dataTable>	
-					
-			<h:dataTable value="#{castleBean.comments}" var="item">
-				<f:facet name="header">#{msg.personAllLabel}</f:facet>
-				<h:column>
-					<f:facet name="header">#{msg.personPinLabel}</f:facet>
-					<h:outputText value="#{item.value}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">#{msg.personFirstNameLabel}</f:facet>
-					<h:outputText value="#{item.user}" />
-				</h:column>
-				
-							</h:dataTable>
+			
+			<h3>Komentarze:</h3>	
+			<ui:repeat value="#{castleBean.comments}" var="item">
+				Ocena: <h:outputText value="#{item.rate}" /><br/>
+				Ponieważ: <h:outputText value="#{item.value}" /><br/>
+				Napisał(a): <i>~<h:outputText value="#{item.user}" /> dnia <h:outputText value="#{item.niceDate}" /></i>
+				<hr/>
+			</ui:repeat>
 		</h:form>
 Zostaw info:
 		<h:form id="commentForm">
 			<h:panelGrid columns="2">
 
-				<h:outputText value="Uzytkownik" />
+				<h:outputText value="Nick" />
 				<h:inputText id="user" value="#{castleBean.comment.user}"
 					required="#{true}" />
 
-				<h:outputText value="Ocena" />
-				<h:inputText id="rate" value="#{castleBean.comment.rate}" />
-
+				<h:outputText value="Twoja ocena" />
+				<h:selectOneRadio value="#{castleBean.comment.rate}">
+				   	<f:selectItem itemValue="1" itemLabel="1  " />
+				   	<f:selectItem itemValue="2" itemLabel="2  " />
+				   	<f:selectItem itemValue="3" itemLabel="3  " />
+				   	<f:selectItem itemValue="4" itemLabel="4  " />
+				   	<f:selectItem itemValue="5" itemLabel="5  " />
+				</h:selectOneRadio>
+				
 				<h:outputText value="Tresc" />
-				<h:inputText id="value" value="#{castleBean.comment.value}" />
+				<h:inputTextarea id="value" value="#{castleBean.comment.value}" />
 
 			</h:panelGrid>
 
-			<h:commandButton value="Daje okejke"
+			<h:commandButton value="Skomentuj"
 				action="#{castleBean.addComment}" />
 
 			<h:panelGrid>

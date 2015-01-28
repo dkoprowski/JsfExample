@@ -3,10 +3,57 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/templates/default.xhtml">
+	template="/templates/default.xhtml"
+	xmlns:rich="http://richfaces.org/rich">
 	<ui:define name="content">
+	<div class="searchField">
+		<h:form id="findCeremony">
+			Znajdź wydarzenia w 
+				<h:selectOneMenu value="#{ceremonyBean.castleId}">
+        			<f:selectItems value="#{castleBean.allCastles}" var="currentCastle" itemValue="#{currentCastle.id}" itemLabel="#{currentCastle.name}"/>
+     			</h:selectOneMenu>
+     			w cenie biletów od 
+				<h:inputText id="bottm" value="#{ceremonyBean.bottomPrice}"
+					required="#{true}" />
+					do 
+				<h:inputText id="upper" value="#{ceremonyBean.upperPrice}"
+					required="#{true}" />
+					
+			<h:commandButton value="Szukaj"
+				action="#{ceremonyBean.findCeremonies}" />
+
+			<h:panelGrid>
+				<h:messages for="" />
+				<h:messages id="messages" showDetail="#{true}"
+					showSummary="#{false}" />
+			</h:panelGrid>
+		</h:form>
+		</div>
+		<div class="searchField">
+				<h:form id="findCeremonyByDate">
+			Znajdź wydarzenia od 
+				<rich:calendar value="#{ceremonyBean.startDate}"
+					id="calendar" datePattern="dd.MM.yyyy" showApplyButton="#{true}"
+					style="width:200px">
+				</rich:calendar>
+				 do 
+				<rich:calendar value="#{ceremonyBean.endDate}"
+					id="calendar2" datePattern="dd.MM.yyyy" showApplyButton="#{true}"
+					style="width:200px">
+				</rich:calendar>
+					
+			<h:commandButton value="Szukaj"
+				action="#{ceremonyBean.findCeremoniesByDate}" />
+
+			<h:panelGrid>
+				<h:messages for="" />
+				<h:messages id="messages" showDetail="#{true}"
+					showSummary="#{false}" />
+</h:panelGrid>
+		</h:form>
+		</div>
 		<h:form>
-			<h:dataTable value="#{castleBean.allCastles}" var="item">
+			<h:dataTable value="#{castleBean.allCastles}" var="item" class="table">
 				<f:facet name="header">Zamki</f:facet>
 				<h:column>
 					<f:facet name="header">Nazwa</f:facet>
@@ -19,9 +66,15 @@
 				</h:column>
 
 				<h:column>
-
+					<f:facet name="header">Ocena</f:facet>
+					<h:outputText value="#{item.averageRate}" />
 				</h:column>
 
+				<h:column>
+					<f:facet name="header"></f:facet>
+					<h:outputText value="#{item.recomendation}" />
+				</h:column>
+				
 			</h:dataTable>
 		</h:form>
 

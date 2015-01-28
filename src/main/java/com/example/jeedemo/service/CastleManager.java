@@ -1,18 +1,18 @@
 package com.example.jeedemo.service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.example.jeedemo.domain.Castle;
 import com.example.jeedemo.domain.Ceremony;
 import com.example.jeedemo.domain.Comment;
-import com.example.jeedemo.domain.Material;
-import com.example.jeedemo.domain.Person;
+
 
 
 @Stateless
@@ -34,6 +34,14 @@ public class CastleManager {
 		em.remove(castle);
 	}
 	
+	public void updateCastle(Castle castle) {
+
+		Castle cas = (Castle)em.find(Castle.class, castle.getId());
+		cas.setAverageRate(castle.getAverageRate());
+		
+		em.flush();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Castle> getAllCastles() {
 		return em.createNamedQuery("castle.all").getResultList();
@@ -50,6 +58,8 @@ public class CastleManager {
 	    Query query = em.createNamedQuery("ceremony.byCastle");
 	    return query.setParameter("castleId", actualCastle.getId()).getResultList();
 	}
+	
+	
 	
 /*
 	public List<Car> getOwnedCars(Person person) {

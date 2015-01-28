@@ -3,12 +3,14 @@ package com.example.jeedemo.domain;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -21,7 +23,14 @@ import javax.ws.rs.FormParam;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "ceremony.all", query = "Select c from Ceremony c"),
-	@NamedQuery(name = "ceremony.byCastle", query = "Select c from Ceremony c where c.castle.id = :castleId")
+	@NamedQuery(name = "ceremony.byCastle", query = "Select c from Ceremony c where c.castle.id = :castleId"),
+	@NamedQuery(name = "ceremony.byCastleAndPrice", query = "Select c from Ceremony c "
+			+ "where (c.castle.id = :castleId) and "
+			+ "(c.ticketPrice >= :bottomPrice) and "
+			+ "(c.ticketPrice <= :upperPrice)"),
+	@NamedQuery(name = "ceremony.byDate", query = "Select c from Ceremony c "
+			+ "where (c.ceremonyDate >= :startDate) and "
+			+ "(c.ceremonyDate <= :endDate) ")
 })
 public class Ceremony {
 
@@ -34,6 +43,7 @@ public class Ceremony {
 	
 	private Date ceremonyDate = new Date();
 	private Castle castle;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -68,7 +78,12 @@ public class Ceremony {
 		this.ceremonyDate = ceremonyDate;
 	}
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@SuppressWarnings("deprecation")
+	public String getNiceDate() {
+		return ceremonyDate.toLocaleString();
+	}
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.REFRESH)
 	public Castle getCastle(){
 		return castle;
 	}
@@ -76,5 +91,7 @@ public class Ceremony {
 	public void setCastle(Castle castle){
 		this.castle = castle;
 	}
+	
+
 	
 }

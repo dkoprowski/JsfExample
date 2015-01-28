@@ -11,10 +11,8 @@ import javax.inject.Named;
 import com.example.jeedemo.domain.Castle;
 import com.example.jeedemo.domain.Ceremony;
 import com.example.jeedemo.domain.Comment;
-import com.example.jeedemo.domain.Person;
-import com.example.jeedemo.domain.Material;
 import com.example.jeedemo.service.CastleManager;
-import com.example.jeedemo.service.MaterialManager;
+
 
 
 @SessionScoped
@@ -87,9 +85,18 @@ public class CastleFormBean implements Serializable {
 		return comment;
 	}
 	
+
+	
 	public String addComment(){
 		comment.setCastle(castleToShow);
 		comment.setCommentDate(new Date());
+		
+		int elements = cm.getComments(castleToShow).size();
+		float currentAv = castleToShow.getAverageRate();
+		
+		castleToShow.setAverageRate((currentAv * elements + comment.getRate())/(elements + 1));
+		cm.updateCastle(castleToShow);
+		
 		cm.addComment(comment);
 		return("details");
 	}

@@ -1,6 +1,7 @@
 package com.example.jeedemo.domain;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -19,13 +21,20 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQuery(name = "castle.all", query = "Select c from Castle c")
+@NamedQueries({
+	@NamedQuery(name = "castle.all", query = "Select c from Castle c order by c.averageRate desc")
+
+})
+
 public class Castle {
 
 	private Long id;
 
 	private String name = "unknown castle";
+	private String lastKing = "king";
 	private int numberOfSeats = 0;
+	
+	private float averageRate = 0;
 	
 	private Date buildDate = new Date();
 	
@@ -50,7 +59,13 @@ public class Castle {
 		this.name = name;
 	}
 
-
+	public String getLastKing() {
+		return lastKing;
+	}
+	public void setLastKing(String name) {
+		this.lastKing = name;
+	}
+	
 	public int getNumberOfSeats() {
 		return numberOfSeats;
 	}
@@ -68,6 +83,23 @@ public class Castle {
 	
 	public int getAge() {
 		return (new Date().getYear() - buildDate.getYear());
+	}
+	
+	public float getAverageRate(){
+		float x = Math.round(averageRate * 100);
+		return (x/100);
+	   
+	}
+	
+	public void setAverageRate(float a){
+		this.averageRate = a;
+	}
+	
+	public String getRecomendation(){
+		if(getAverageRate() >= 4)
+			return "Polecane!";
+		else
+			return "";
 	}
 	/*
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
